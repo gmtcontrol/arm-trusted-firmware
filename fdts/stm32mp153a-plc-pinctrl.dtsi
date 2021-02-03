@@ -143,7 +143,7 @@
 
 		pins2 {
 			pinmux = <STM32_PINMUX('D', 6, AF7)>; /* USART2_RX */
-			bias-disable;
+			bias-pull-up;
 		};
 	};
 
@@ -157,7 +157,7 @@
 
 		pins2 {
 			pinmux = <STM32_PINMUX('D', 9, AF7)>; /* USART3_RX */
-			bias-disable;
+			bias-pull-up;
 		};
 	};
 };
