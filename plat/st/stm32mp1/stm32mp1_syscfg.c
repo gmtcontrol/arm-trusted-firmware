@@ -23,6 +23,7 @@
 #define SYSCFG_ICNR				0x1CU
 #define SYSCFG_CMPCR				0x20U
 #define SYSCFG_CMPENSETR			0x24U
+#define SYSCFG_CMPENCLRR			0x28U
 
 /*
  * SYSCFG_BOOTR Register
@@ -165,6 +166,8 @@ void stm32mp1_syscfg_disable_io_compensation(void)
 {
 	uint32_t value;
 
+	stm32mp1_clk_force_enable(SYSCFG);
+
 	/*
 	 * Deactivate automatic I/O compensation.
 	 * Warning: CSI is disabled automatically in STOP if not
@@ -182,8 +185,7 @@ void stm32mp1_syscfg_disable_io_compensation(void)
 
 	mmio_write_32(SYSCFG_BASE + SYSCFG_CMPCR, value | SYSCFG_CMPCR_SW_CTRL);
 
-	mmio_clrbits_32(SYSCFG_BASE + SYSCFG_CMPENSETR,
-			SYSCFG_CMPENSETR_MPU_EN);
+	mmio_setbits_32(SYSCFG_BASE + SYSCFG_CMPENCLRR, SYSCFG_CMPENSETR_MPU_EN);
 
 	stm32mp1_clk_force_disable(SYSCFG);
 }
